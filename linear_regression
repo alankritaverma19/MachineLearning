@@ -1,0 +1,45 @@
+import matplotlib.pyplot as plt
+import numpy as np
+
+def calculateB(x, y, n):
+    sx = sum(x)
+    sy = sum(y)
+    sxsy = 0
+    sx2 = 0
+    for i in range(n):
+        sxsy += x[i] * y[i]
+        sx2 += x[i] * x[i]
+    b = (n * sxsy - sx * sy)/(n * sx2 - sx * sx)
+    return b
+
+def leastRegLine(X,Y,n):
+    # Finding b
+    b = calculateB(X, Y, n)
+    meanX = sum(X)/n
+    meanY = sum(Y)/n
+
+    a = meanY - b * meanX
+
+    print("Regression line:")
+    print("Y = {:.3f} + {:.3f}*X".format(a, b))
+
+    # Plotting the regression line
+    x_line = np.linspace(min(X), max(X), 100)
+    y_line = a + b * x_line
+    plt.plot(X, Y, 'o')
+    plt.plot(x_line, y_line)
+    plt.xlabel('X')
+    plt.ylabel('Y')
+    plt.title('Regression Line')
+    plt.grid(False)
+    plt.show()
+
+    # Predicting y for a given x
+    x_input = float(input("Enter a value for x: "))
+    y_predicted = a + b * x_input
+    print("Predicted y for x = {:.2f} is {:.2f}".format(x_input, y_predicted))
+
+X = [95, 85, 80, 70, 60 ]
+Y = [90, 80, 70, 65, 60 ]
+n = len(X)
+leastRegLine(X, Y, n)
